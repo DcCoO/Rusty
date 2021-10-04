@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 446151817244912006}
   - component: {fileID: 3967113611991334328}
   - component: {fileID: 8701824064655811939}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: mesh_random(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

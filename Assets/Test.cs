@@ -14,8 +14,13 @@ public class Test : MonoBehaviour
     public float minScale, maxScale;
     Camera cam;
 
+    int rustLayer, objectLayer;
+
     void Start()
     {
+        rustLayer = LayerMask.NameToLayer("Rust");
+        objectLayer = LayerMask.NameToLayer("Object");
+
         cam = Camera.main;
         Vector3 meshCenter = transform.position;
         Mesh mesh = GetComponent<MeshFilter>().mesh;
@@ -43,12 +48,43 @@ public class Test : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hit; 
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 10, mask))
+            DropRust();
+        }
+    }
+
+    public void DropRust()
+    {
+        Vector3 camPosition = cam.transform.position;
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit[] hits = Physics.RaycastAll(ray, 5, mask);
+
+        float objectDist = 999, rustDist = 999;
+        int objectIndex = -1, rustIndex = -1;
+        for (int i = 0; i < hits.Length; ++i)
+        {
+            float dist = Vector3.Distance(camPosition, hits[i].point);
+            if (hits[i].transform.gameObject.layer == rustLayer)
             {
-                Destroy(hit.transform.gameObject);
+                if (dist < rustDist)
+                {
+                    rustDist = dist;
+                    rustIndex = i;
+                }
             }
+            else
+            {
+                if (dist < objectDist)
+                {
+                    objectDist = dist;
+                    objectIndex = i;
+                }
+            }
+        }
+        if(rustIndex != -1 && rustDist < objectDist)
+        {
+            GameObject rust = hits[rustIndex].transform.gameObject;
+            rust.transform.parent = null;
+            rust.AddComponent<Rigidbody>();
         }
     }
 
