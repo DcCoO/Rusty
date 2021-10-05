@@ -86,12 +86,8 @@ public class Test : MonoBehaviour
         if(rustIndex != -1 && rustDist < objectDist)
         {
             GameObject rust = hits[rustIndex].transform.gameObject;
-            /*
-            rust.transform.parent = null;
-            rust.AddComponent<Rigidbody>();*/
-            Vector3 fw = Camera.main.transform.forward;
-            //print(Vector3.Angle(Vector3.back, new Vector3(fw.x, 0, fw.z)));
-            Chisel.instance.Move(rust.transform.position, Vector3.Angle(Vector3.back, new Vector3(fw.x, 0, fw.z)));
+            RustStone rs = rust.GetComponent<RustStone>();
+            Chisel.instance.SetRust(rs);
         }
     }
 
