@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
+  - Hammer
   layers:
   - Default
   - TransparentFX
@@ -16,10 +17,10 @@ TagManager:
   - 
   - Lighting
   - Ground
-  - Postprocessing
+  - Water Particle
   - Object
   - Rust
-  - 
+  - Only Raycast
   - 
   - 
   - 
