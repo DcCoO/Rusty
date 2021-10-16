@@ -17,19 +17,14 @@ public class RustyBreakController : SingletonMonoBehaviour<RustyBreakController>
     int rustyStoneAlive;
     Camera cam;
 
-    int rustLayer, objectLayer;
+    int rustLayer;
+    public bool working;
 
-    void Start()
+    public void Setup()
     {
         rustLayer = LayerMask.NameToLayer("Rust");
-        objectLayer = LayerMask.NameToLayer("Object");
         cam = Camera.main;
 
-        //Reset(meshTransform);
-    }
-
-    public void Reset(Transform meshTransform)
-    {
         Vector3 meshCenter = meshTransform.position;
         Mesh mesh = meshTransform.GetComponent<MeshFilter>().mesh;
         List<Vector3> vs = new List<Vector3>(mesh.vertices);
@@ -50,8 +45,9 @@ public class RustyBreakController : SingletonMonoBehaviour<RustyBreakController>
             t.parent = meshTransform;
         }
         rustyStoneCount = rustyStoneAlive = idxs.Count;
-        UIController.instance.SetProgressPanelState(true);
+        //UIController.instance.SetProgressPanelState(true);
         UpdateRustPercentage();
+        working = true;
     }
 
 
@@ -59,12 +55,12 @@ public class RustyBreakController : SingletonMonoBehaviour<RustyBreakController>
     // Update is called once per frame
     void Update()
     {
+        if (!working) return;
+
         if (Input.GetMouseButtonDown(0))
         {
             SetRust();
         }
-        Vector3 fw = Camera.main.transform.forward;
-
     }
 
     public void SetRust()

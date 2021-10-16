@@ -6,23 +6,27 @@ public class RustCleanController : MonoBehaviour
 {
     Camera cam;
     [SerializeField] LayerMask mask;
-    [SerializeField] Texture2D rustyMaskTex, brushTex;
+    [SerializeField] Texture2D rustyMaskTex, brushTex, albedoTex;
 
     public float percent;
     int greenPixels, blackPixels;
     float screenHeight;
-    void Start()
+
+    public bool working;
+
+    public void Setup()
     {
         cam = Camera.main;
         ResetMask();
         screenHeight = Screen.height;
         Rotator.instance.SetAutomaticRotation(true);
-        greenPixels = (rustyMaskTex.width * rustyMaskTex.height);
         blackPixels = 0;
     }
 
     void Update()
     {
+        if (!working) return;
+
         if (Input.GetKeyDown(KeyCode.S)) ResetMask();
         if(Input.GetMouseButtonDown(0)) UIController.instance.SetCrosshairState(true);
         if (Input.GetMouseButton(0))
@@ -40,8 +44,6 @@ public class RustCleanController : MonoBehaviour
 
                 int xOffset = x - (brushTex.width / 2), yOffset = y - (brushTex.height / 2);
 
-                print(brushTex.width);
-
                 for(int i = 0; i < brushTex.width; ++i)
                 {
                     for(int j = 0; j < brushTex.height; ++j)
@@ -49,7 +51,7 @@ public class RustCleanController : MonoBehaviour
                         Color brush = brushTex.GetPixel(i, j);
                         Color mask = rustyMaskTex.GetPixel(xOffset + i, yOffset + j);
                         float prod = mask.g * brush.g;
-                        if (mask.g > 0.05 && prod == 0) ++blackPixels;
+                        if (mask.g > 0.05 && prod < 0.05f && albedoTex.GetPixel(xOffset + i, yOffset + j) != Color.black) ++blackPixels;
                         rustyMaskTex.SetPixel(xOffset + i, yOffset + j, new Color(0, prod , 0));
                     }
                 }
@@ -70,13 +72,17 @@ public class RustCleanController : MonoBehaviour
 
     public void ResetMask()
     {
+        int paintPixels = 0;
         for (int i = 0; i < rustyMaskTex.width; ++i)
         {
             for (int j = 0; j < rustyMaskTex.height; ++j)
             {
                 rustyMaskTex.SetPixel(i, j, Color.green);
+                if (albedoTex.GetPixel(i, j) != Color.black) paintPixels++;
             }
         }
+        greenPixels = paintPixels;
+        print($"Total pixels to paint = {greenPixels}");
         rustyMaskTex.Apply();
     }
 }
