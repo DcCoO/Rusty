@@ -44,6 +44,7 @@ public class RustStone : MonoBehaviour
         if(HP == 0)
         {
             StopAllCoroutines();
+            RustyBreakController.instance.DropRust();
             GetComponent<Renderer>().material.SetColor(glowColorProperty, Color.black);
             transform.parent = null;
             gameObject.AddComponent<Rigidbody>();

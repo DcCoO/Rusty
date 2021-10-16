@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class RustyBreakController : MonoBehaviour
+public class RustyBreakController : SingletonMonoBehaviour<RustyBreakController>
 {
     [Range(0, 1)]
     public float percent;
@@ -13,7 +13,8 @@ public class RustyBreakController : MonoBehaviour
 
     [SerializeField] float minScale, maxScale;
     [SerializeField] Transform meshTransform;
-
+    int rustyStoneCount;
+    int rustyStoneAlive;
     Camera cam;
 
     int rustLayer, objectLayer;
@@ -22,8 +23,13 @@ public class RustyBreakController : MonoBehaviour
     {
         rustLayer = LayerMask.NameToLayer("Rust");
         objectLayer = LayerMask.NameToLayer("Object");
-
         cam = Camera.main;
+
+        //Reset(meshTransform);
+    }
+
+    public void Reset(Transform meshTransform)
+    {
         Vector3 meshCenter = meshTransform.position;
         Mesh mesh = meshTransform.GetComponent<MeshFilter>().mesh;
         List<Vector3> vs = new List<Vector3>(mesh.vertices);
@@ -43,20 +49,25 @@ public class RustyBreakController : MonoBehaviour
             t.localScale = new Vector3(Random.Range(minScale, maxScale), t.localScale.y, Random.Range(minScale, maxScale));
             t.parent = meshTransform;
         }
+        rustyStoneCount = rustyStoneAlive = idxs.Count;
+        UIController.instance.SetProgressPanelState(true);
+        UpdateRustPercentage();
     }
+
+
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            DropRust();
+            SetRust();
         }
         Vector3 fw = Camera.main.transform.forward;
 
     }
 
-    public void DropRust()
+    public void SetRust()
     {
         Vector3 camPosition = cam.transform.position;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
@@ -85,5 +96,16 @@ public class RustyBreakController : MonoBehaviour
             Chisel.instance.SetRust(rs);
             UIController.instance.SetHammerScreen(true);
         }
+    }
+
+    public void DropRust()
+    {
+        --rustyStoneAlive;
+        UpdateRustPercentage();
+    }
+
+    public void UpdateRustPercentage()
+    {
+        ProgressPanel.instance.SetPercentage((float)(rustyStoneCount - rustyStoneAlive) / (float)rustyStoneCount);
     }
 }

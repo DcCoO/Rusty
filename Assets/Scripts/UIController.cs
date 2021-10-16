@@ -6,6 +6,7 @@ public class UIController : SingletonMonoBehaviour<UIController>
 {
     [SerializeField] GameObject hammerScreen;
     [SerializeField] RectTransform crosshair;
+    [SerializeField] GameObject progressPanel;
     void Start()
     {
         
@@ -29,5 +30,10 @@ public class UIController : SingletonMonoBehaviour<UIController>
     public void MoveCrosshair(Vector2 position, Vector2 offset)
     {
         crosshair.anchoredPosition = position + offset;
+    }
+
+    public void SetProgressPanelState(bool state)
+    {
+        progressPanel.SetActive(state);
     }
 }
