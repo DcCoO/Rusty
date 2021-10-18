@@ -12,10 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e8de93485f6024780a498e5d632ef6, type: 3}
   m_Name: Level 2
   m_EditorClassIdentifier: 
-  meshPrefab: {fileID: 0}
-  albedo: {fileID: 0}
-  mask: {fileID: 0}
-  normal: {fileID: 0}
-  metallic: 0
-  smoothness: 0
+  LevelPrefab: {fileID: 178927029109598777, guid: 950a8cf39b50d2b4bb75898888698fb9,
+    type: 3}
   rustyPercentage: 0
+  maxCleanPercentage: 0

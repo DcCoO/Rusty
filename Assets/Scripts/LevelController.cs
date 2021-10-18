@@ -8,6 +8,8 @@ public class LevelController : SingletonMonoBehaviour<LevelController>
     const string realLevelID = "RealLevel";
     const string showLevelID = "ShowLevel";
 
+    [SerializeField] bool testMode;
+
 
     int realLevel
     {
@@ -24,6 +26,7 @@ public class LevelController : SingletonMonoBehaviour<LevelController>
     protected override void Awake()
     {
         base.Awake();
+        if (testMode) return;   
         LoadLevel();
     }
     void Start()
@@ -41,6 +44,7 @@ public class LevelController : SingletonMonoBehaviour<LevelController>
         Instantiate(levels[0].LevelPrefab, Vector3.zero, Quaternion.identity);
         //RustyBreakController.instance.percent = levels[0].rustyPercentage;
         RustyBreakController.instance.Setup();
+        //RustCleanController.instance.Setup();
     }
 
     public void FinishLevel()

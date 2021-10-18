@@ -20,6 +20,12 @@ public class RustyBreakController : SingletonMonoBehaviour<RustyBreakController>
     int rustLayer;
     public bool working;
 
+
+    private void Start()
+    {
+        //Setup();
+    }
+
     public void Setup()
     {
         rustLayer = LayerMask.NameToLayer("Rust");

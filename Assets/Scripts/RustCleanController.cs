@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RustCleanController : MonoBehaviour
+public class RustCleanController : SingletonMonoBehaviour<RustCleanController>
 {
     Camera cam;
     [SerializeField] LayerMask mask;
@@ -14,6 +14,11 @@ public class RustCleanController : MonoBehaviour
 
     public bool working;
 
+    private void Start()
+    {
+        Setup();
+    }
+
     public void Setup()
     {
         cam = Camera.main;
@@ -21,6 +26,7 @@ public class RustCleanController : MonoBehaviour
         screenHeight = Screen.height;
         Rotator.instance.SetAutomaticRotation(true);
         blackPixels = 0;
+        working = true;
     }
 
     void Update()
