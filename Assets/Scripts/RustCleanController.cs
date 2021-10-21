@@ -9,6 +9,8 @@ public class RustCleanController : SingletonMonoBehaviour<RustCleanController>
     [SerializeField] Texture2D rustyMaskTex, brushTex, albedoTex;
 
     public float percent;
+    public float maxPossiblePercentage;
+    public float currentPercent;
     int greenPixels, blackPixels;
     float screenHeight;
 
@@ -16,7 +18,7 @@ public class RustCleanController : SingletonMonoBehaviour<RustCleanController>
 
     private void Start()
     {
-        Setup();
+        //Setup();
     }
 
     public void Setup()
@@ -26,6 +28,7 @@ public class RustCleanController : SingletonMonoBehaviour<RustCleanController>
         screenHeight = Screen.height;
         Rotator.instance.SetAutomaticRotation(true);
         blackPixels = 0;
+        ProgressPanel.instance.SetPercentage(0);
         working = true;
     }
 
@@ -67,7 +70,10 @@ public class RustCleanController : SingletonMonoBehaviour<RustCleanController>
             {
                 Hose.instance.SetState(false);
             }
-            percent = (float)blackPixels / (float)greenPixels;
+            percent = (float)blackPixels / greenPixels;
+            currentPercent = Mathf.Min(1, percent / maxPossiblePercentage);
+            //UIController.instance.SetProgressPercentage(currentPercent);
+            ProgressPanel.instance.SetPercentage(currentPercent);
         }
         else
         {

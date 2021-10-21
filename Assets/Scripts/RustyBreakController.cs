@@ -23,7 +23,7 @@ public class RustyBreakController : SingletonMonoBehaviour<RustyBreakController>
 
     private void Start()
     {
-        //Setup();
+        Setup();
     }
 
     public void Setup()
@@ -56,9 +56,9 @@ public class RustyBreakController : SingletonMonoBehaviour<RustyBreakController>
         working = true;
     }
 
+    public Vector3 GetMeshPosition() => meshTransform.position;
 
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (!working) return;

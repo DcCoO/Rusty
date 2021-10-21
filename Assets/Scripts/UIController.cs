@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : SingletonMonoBehaviour<UIController>
 {
     [SerializeField] GameObject hammerScreen;
-    [SerializeField] RectTransform crosshair;
+    [SerializeField] RectTransform crosshair;    
     [SerializeField] GameObject progressPanel;
     void Start()
     {
@@ -36,4 +38,5 @@ public class UIController : SingletonMonoBehaviour<UIController>
     {
         progressPanel.SetActive(state);
     }
+
 }

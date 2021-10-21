@@ -17,11 +17,12 @@ public class Rotator : SingletonMonoBehaviour<Rotator>
     [SerializeField] float manualSpeed;
 
     Transform tf;
-    float sw;
+    float sw, sh;
     void Start()
     {
         tf = transform;
         sw = Screen.width;
+        sh = Screen.height;
     }
 
     public void SetAutomaticRotation(bool state) => auto = state;
@@ -32,13 +33,13 @@ public class Rotator : SingletonMonoBehaviour<Rotator>
         if(auto) tf.Rotate(0, autoSpeed * Time.deltaTime, 0); 
         else if(Input.GetMouseButton(0))
         {
-            float mouseX = Input.mousePosition.x;
-            if(mouseX < manualMovePercent * sw)
+            Vector2 mouse = Input.mousePosition;
+            if(mouse.x < manualMovePercent * sw && mouse.y < 0.85f * sh)
             {
                 tf.Rotate(0, manualSpeed * Time.deltaTime, 0);
                 Chisel.instance.Disappear();
             }
-            else if (mouseX > (1 - manualMovePercent) * sw)
+            else if (mouse.x > (1 - manualMovePercent) * sw && mouse.y < 0.85f * sh)
             {
                 tf.Rotate(0, -manualSpeed * Time.deltaTime, 0);
                 Chisel.instance.Disappear();

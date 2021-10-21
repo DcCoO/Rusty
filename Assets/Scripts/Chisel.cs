@@ -16,6 +16,7 @@ public class Chisel : SingletonMonoBehaviour<Chisel>
     RustStone currentRustStone;
 
     public bool disappearing;
+    bool canHammer;
     //lockers
     bool hammering = false;
     void Start()
@@ -27,6 +28,7 @@ public class Chisel : SingletonMonoBehaviour<Chisel>
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A)) HammerHit();
+        if (canHammer) HammerHit();
     }
 
     public void SetRust(RustStone rustStone)
@@ -63,6 +65,7 @@ public class Chisel : SingletonMonoBehaviour<Chisel>
     IEnumerator DisappearRoutine()
     {
         disappearing = true;
+        canHammer = false;
         Vector3 begin = tf.position;
         for(float t = 0; t < 1; t += Time.deltaTime * 4)
         {
@@ -72,6 +75,8 @@ public class Chisel : SingletonMonoBehaviour<Chisel>
         tf.position = 0.3f * Vector3.up;
         disappearing = false;
     }
+
+    public void CanHammer(bool state) => canHammer = state;
 
     public void HammerHit()
     {
