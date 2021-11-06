@@ -39,4 +39,8 @@ public class UIController : SingletonMonoBehaviour<UIController>
         progressPanel.SetActive(state);
     }
 
+    public void SetHose() => CleanController.instance.SetTool(Tool.HOSE);
+    public void SetSpray() => CleanController.instance.SetTool(Tool.SPRAY);
+    public void SetLaser() => CleanController.instance.SetTool(Tool.LASER);
+
 }
