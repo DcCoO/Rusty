@@ -54,6 +54,7 @@ public class CleanController : SingletonMonoBehaviour<CleanController>
             if (currentTool == Tool.HOSE) HoseUpdate();
             else if (currentTool == Tool.LASER) LaserUpdate();
             else if (currentTool == Tool.SPRAY) SprayUpdate();
+            ProgressPanel.instance.SetPercentage(currentPercent);
         }
         else
         {
@@ -169,7 +170,7 @@ public class CleanController : SingletonMonoBehaviour<CleanController>
                     if (dirt.r > 0.25f || dirt.g > 0.25f || dirt.b > 0.25f) continue;
 
                     float color = Mathf.Min(brush.g, scratch.g);
-                    //if (mask.g > 0.05 && prod < 0.05f && idTex.GetPixel(xOffset + i, yOffset + j) != Color.black) ++blackPixels;
+                    if (scratch.g > 0.05 && color < 0.05f) ++blackPixels;
                     scratchMask.SetPixel(xOffset + i, yOffset + j, new Color(color, color, color));
                 }
             }
