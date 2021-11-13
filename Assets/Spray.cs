@@ -20,6 +20,7 @@ public class Spray : SingletonMonoBehaviour<Spray>
     {
         if (state)
         {
+            tf.localScale = Vector3.one;
             if (!isPlaying)
             {
                 sprayBeam.Play();
@@ -32,6 +33,7 @@ public class Spray : SingletonMonoBehaviour<Spray>
             sprayBeam.Stop();
             spraySteam.Stop();
             isPlaying = false;
+            tf.localScale = Vector3.zero;
         }
     }
 

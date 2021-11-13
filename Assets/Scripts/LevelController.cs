@@ -1,59 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class LevelController : SingletonMonoBehaviour<LevelController>
 {
-    const string realLevelID = "RealLevel";
-    const string showLevelID = "ShowLevel";
+    [Header("Object")]
+    public GameObject objectPrefab;
 
-    [SerializeField] bool testMode;
+    [Header("Material Settings")]
+    public float hueValue;
+    public Color metalColor;
 
+    GameObject level;
+    private static readonly int HueProperty = Shader.PropertyToID("_Hue");
+    private static readonly int MetalColorProperty = Shader.PropertyToID("_MetalColor");
 
-    int realLevel
-    {
-        get { return PlayerPrefs.GetInt(realLevelID, 0); }
-        set { PlayerPrefs.GetInt(realLevelID, value); }
-    }
-    int showLevel
-    {
-        get { return PlayerPrefs.GetInt(showLevelID, 0); }
-        set { PlayerPrefs.GetInt(showLevelID, value); }
-    }
-    [SerializeField] LevelData[] levels;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        if (testMode) return;   
-        LoadLevel();
-    }
     void Start()
     {
-        
+        LoadGame();
     }
 
-    public void LoadScene()
+
+    public void LoadGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        level = Instantiate(objectPrefab);
+        MeshRef meshRef = level.GetComponent<MeshRef>();
+        meshRef.meshRenderer.material.SetFloat(HueProperty, hueValue);
+        meshRef.meshRenderer.material.SetColor(MetalColorProperty, metalColor);
+
+        CleanController.instance.Setup(meshRef.IDTexture, meshRef.pixelsToPaint);
     }
 
-    public void LoadLevel()
-    {
-        Instantiate(levels[0].LevelPrefab, Vector3.zero, Quaternion.identity);
-        //RustyBreakController.instance.percent = levels[0].rustyPercentage;
-        RustyBreakController.instance.Setup();
-        //RustCleanController.instance.Setup();
-    }
-
-    public void FinishLevel()
-    {
-        realLevel++;
-        showLevel++;
-    }
-
-    // Update is called once per frame
     void Update()
     {
         

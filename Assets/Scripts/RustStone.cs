@@ -48,7 +48,6 @@ public class RustStone : MonoBehaviour
             GetComponent<Renderer>().material.SetColor(glowColorProperty, Color.black);
             transform.parent = null;
             gameObject.AddComponent<Rigidbody>().AddForce((transform.position - RustyBreakController.instance.GetMeshPosition()).normalized * 10, ForceMode.Impulse);
-            UIController.instance.SetHammerScreen(false);
             Destroy(gameObject, 3);
             return null;
         }

@@ -96,7 +96,6 @@ public class RustyBreakController : SingletonMonoBehaviour<RustyBreakController>
             GameObject rust = hits[rustIndex].transform.gameObject;
             RustStone rs = rust.GetComponent<RustStone>();
             Chisel.instance.SetRust(rs);
-            UIController.instance.SetHammerScreen(true);
         }
     }
 

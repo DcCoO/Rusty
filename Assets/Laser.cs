@@ -20,6 +20,8 @@ public class Laser : SingletonMonoBehaviour<Laser>
     {
         if (state)
         {
+            tf.localScale = Vector3.one;
+                laserSteam.transform.localScale = 0.4f * Vector3.one;
             if (!isPlaying)
             {
                 laserBeam.Play();
@@ -32,6 +34,8 @@ public class Laser : SingletonMonoBehaviour<Laser>
             laserBeam.Stop();
             laserSteam.Stop();
             isPlaying = false;
+            tf.localScale = Vector3.zero;
+            laserSteam.transform.localScale = Vector3.zero;
         }
     }
 

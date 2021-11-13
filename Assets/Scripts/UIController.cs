@@ -6,9 +6,15 @@ using UnityEngine.UI;
 
 public class UIController : SingletonMonoBehaviour<UIController>
 {
-    [SerializeField] GameObject hammerScreen;
+    [SerializeField] GameObject lowerMenu;
     [SerializeField] RectTransform crosshair;    
     [SerializeField] GameObject progressPanel;
+
+    [Header("Outlines")]
+    [SerializeField] Outline hoseOutline;
+    [SerializeField] Outline laserOutline;
+    [SerializeField] Outline sprayOutline;
+
     void Start()
     {
         
@@ -20,9 +26,9 @@ public class UIController : SingletonMonoBehaviour<UIController>
         
     }
 
-    public void SetHammerScreen(bool state)
+    public void SetLowerMenuState(bool state)
     {
-        hammerScreen.SetActive(state);
+        lowerMenu.SetActive(state);
     }
 
     public void SetCrosshairState(bool state)
@@ -39,8 +45,29 @@ public class UIController : SingletonMonoBehaviour<UIController>
         progressPanel.SetActive(state);
     }
 
-    public void SetHose() => CleanController.instance.SetTool(Tool.HOSE);
-    public void SetSpray() => CleanController.instance.SetTool(Tool.SPRAY);
-    public void SetLaser() => CleanController.instance.SetTool(Tool.LASER);
+    public void SetHose()
+    {
+        CleanController.instance.SetTool(Tool.HOSE);
+        hoseOutline.enabled = true;
+        laserOutline.enabled = false;
+        sprayOutline.enabled = false;
+    }
+
+    public void SetLaser()
+    {
+        CleanController.instance.SetTool(Tool.LASER);
+        hoseOutline.enabled = false;
+        laserOutline.enabled = true;
+        sprayOutline.enabled = false;
+    }
+
+    public void SetSpray()
+    {
+        CleanController.instance.SetTool(Tool.SPRAY);
+        hoseOutline.enabled = false;
+        laserOutline.enabled = false;
+        sprayOutline.enabled = true;
+    }
+    
 
 }

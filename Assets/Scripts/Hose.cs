@@ -20,6 +20,7 @@ public class Hose : SingletonMonoBehaviour<Hose>
     {
         if(state)
         {
+            tf.localScale = Vector3.one;
             if (!isPlaying)
             {
                 waterBeam.Play();
@@ -32,6 +33,7 @@ public class Hose : SingletonMonoBehaviour<Hose>
             waterBeam.Stop();
             waterSteam.Stop();
             isPlaying = false;
+            tf.localScale = Vector3.zero;
         }
     }
 
