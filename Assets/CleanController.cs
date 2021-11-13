@@ -21,15 +21,10 @@ public class CleanController : SingletonMonoBehaviour<CleanController>
     [Header("UI")]
     [SerializeField] LayerMask uiMask;
 
-    Camera cam;
+    [SerializeField] Camera cam;
     float screenHeight;
 
     bool isOverUI, canUseTools;
-
-    private void Start()
-    {
-        cam = Camera.main;
-    }
 
     public void Setup(Texture2D id, int pixelsToPaint = 0)
     {
